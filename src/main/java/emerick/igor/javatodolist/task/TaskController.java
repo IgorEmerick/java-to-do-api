@@ -2,7 +2,6 @@ package emerick.igor.javatodolist.task;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import emerick.igor.javatodolist.errors.HttpError;
 import emerick.igor.javatodolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -25,24 +25,24 @@ public class TaskController {
   private ITaskRepository taskRepository;
   
   @PostMapping("/")
-  public ResponseEntity createTask(@RequestBody TaskModel taskModel, HttpServletRequest request) {
+  public ResponseEntity<TaskModel> createTask(@RequestBody TaskModel taskModel, HttpServletRequest request) throws HttpError {
     LocalDateTime currentTime = LocalDateTime.now();
 
     LocalDateTime startTime = taskModel.getStartTime();
 
     if (startTime != null && currentTime.isAfter(startTime)) {
-      return ResponseEntity.status(400).body("Start time should be greater than current time!");
+      throw new HttpError(400, "Start time must be greater than current time!");
     }
 
     LocalDateTime finishTime = taskModel.getFinishTime();
 
     if (finishTime != null) {
       if (startTime == null) {
-        return ResponseEntity.status(400).body("Finish time needs a start time to exists!");
+        throw new HttpError(400, "Is not possible set a finish time without a start time!");
       }
       
       if (finishTime.isBefore(startTime)) {
-        return ResponseEntity.status(400).body("A finish time should be greater than start time!");
+        throw new HttpError(400, "Finish time must be grater than start time!");
       }
     }
 
@@ -56,7 +56,7 @@ public class TaskController {
   }
 
   @GetMapping("/")
-  public ResponseEntity getTasks(HttpServletRequest request) {
+  public ResponseEntity<List<TaskModel>> getTasks(HttpServletRequest request) {
     UUID userId = (UUID) request.getAttribute("userId");
     
     List<TaskModel> tasks = this.taskRepository.findByUserId(userId);
@@ -65,17 +65,17 @@ public class TaskController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity updateTask(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
+  public ResponseEntity<TaskModel> updateTask(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) throws HttpError {
     TaskModel task = this.taskRepository.findById(id).get();
 
     if (task == null) {
-      return ResponseEntity.status(404).body("Task not found!");
+      throw new HttpError(404, "Task not found!");
     }
 
     UUID userId = (UUID) request.getAttribute("userId");
 
     if (!task.getUserId().equals(userId)) {
-      return ResponseEntity.status(403).body("Unauthorized to update this task!");
+      throw new HttpError(403, "Unauthorized to update this task!");
     }
 
     Utils.copyNonNullProperties(taskModel, task);
