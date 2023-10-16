@@ -66,10 +66,16 @@ public class TaskController {
 
   @PutMapping("/{id}")
   public ResponseEntity updateTask(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
-    Optional<TaskModel> task = this.taskRepository.findById(id);
+    TaskModel task = this.taskRepository.findById(id).get();
 
     if (task == null) {
       return ResponseEntity.status(404).body("Task not found!");
+    }
+
+    UUID userId = (UUID) request.getAttribute("userId");
+
+    if (!task.getUserId().equals(userId)) {
+      return ResponseEntity.status(403).body("Unauthorized to update this task!");
     }
 
     Utils.copyNonNullProperties(taskModel, task);
