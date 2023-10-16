@@ -5,12 +5,9 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import emerick.igor.javatodolist.user.UserModel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
@@ -23,9 +20,7 @@ public class TaskModel {
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private UserModel user;
+  private UUID userId;
 
   private String description;
 
