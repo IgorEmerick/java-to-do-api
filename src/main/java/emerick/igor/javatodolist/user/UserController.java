@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import emerick.igor.javatodolist.errors.HttpError;
 
 @RestController
 @RequestMapping("/user")
@@ -16,11 +17,11 @@ public class UserController {
   private IUserRepository userRepository;
 
   @PostMapping("/")
-  public ResponseEntity createUser(@RequestBody UserModel userModel) {
+  public ResponseEntity<UserModel> createUser(@RequestBody UserModel userModel) throws HttpError {
     var user = this.userRepository.findByUsername(userModel.getUsername());
 
     if (user != null) {
-      return ResponseEntity.status(400).body("User already exists!");
+      throw new HttpError(400, "User already exists!");
     }
 
     var cypherPassword = BCrypt.withDefaults().hashToString(12, userModel.getPassword().toCharArray());
