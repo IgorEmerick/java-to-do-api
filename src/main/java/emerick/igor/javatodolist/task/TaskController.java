@@ -1,8 +1,10 @@
 package emerick.igor.javatodolist.task;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +19,33 @@ public class TaskController {
   private ITaskRepository taskRepository;
   
   @PostMapping("/")
-  public TaskModel createTask(@RequestBody TaskModel taskModel, HttpServletRequest request) {
-    var userId = request.getAttribute("userId");
+  public ResponseEntity createTask(@RequestBody TaskModel taskModel, HttpServletRequest request) {
+    LocalDateTime currentTime = LocalDateTime.now();
 
-    taskModel.setUserId((UUID) userId);
+    LocalDateTime startTime = taskModel.getStartTime();
+
+    if (startTime != null && currentTime.isAfter(startTime)) {
+      return ResponseEntity.status(400).body("Start time should be greater than current time!");
+    }
+
+    LocalDateTime finishTime = taskModel.getFinishTime();
+
+    if (finishTime != null) {
+      if (startTime == null) {
+        return ResponseEntity.status(400).body("Finish time needs a start time to exists!");
+      }
+      
+      if (finishTime.isBefore(startTime)) {
+        return ResponseEntity.status(400).body("A finish time should be greater than start time!");
+      }
+    }
+
+    UUID userId = (UUID) request.getAttribute("userId");
+
+    taskModel.setUserId(userId);
     
-    var task = this.taskRepository.save(taskModel);
+    TaskModel task = this.taskRepository.save(taskModel);
 
-    return task;
+    return ResponseEntity.status(201).body(task);
   }
 }
