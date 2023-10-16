@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import emerick.igor.javatodolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -71,9 +72,8 @@ public class TaskController {
       return ResponseEntity.status(404).body("Task not found!");
     }
 
-    UUID userId = (UUID) request.getAttribute("userId");
+    Utils.copyNonNullProperties(taskModel, task);
 
-    taskModel.setUserId(userId);
     taskModel.setId(id);
 
     TaskModel updatedTask = this.taskRepository.save(taskModel);
