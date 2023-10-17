@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import emerick.igor.javatodolist.modules.user.entities.UserEntity;
+import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
+import emerick.igor.javatodolist.modules.user.database.repositories.models.IUserRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
 
 @RestController
