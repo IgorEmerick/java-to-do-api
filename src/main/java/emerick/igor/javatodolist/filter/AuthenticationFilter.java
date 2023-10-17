@@ -10,7 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.BCrypt.Result;
 import emerick.igor.javatodolist.user.IUserRepository;
-import emerick.igor.javatodolist.user.UserEntity;
+import emerick.igor.javatodolist.user.entities.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

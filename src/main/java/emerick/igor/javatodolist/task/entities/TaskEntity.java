@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.task;
+package emerick.igor.javatodolist.task.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

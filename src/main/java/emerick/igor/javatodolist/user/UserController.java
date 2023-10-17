@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import emerick.igor.javatodolist.errors.HttpError;
+import emerick.igor.javatodolist.user.entities.UserEntity;
 
 @RestController
 @RequestMapping("/user")

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import emerick.igor.javatodolist.errors.HttpError;
+import emerick.igor.javatodolist.task.entities.TaskEntity;
 import emerick.igor.javatodolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 

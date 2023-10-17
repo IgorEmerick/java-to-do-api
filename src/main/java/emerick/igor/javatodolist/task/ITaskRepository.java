@@ -3,6 +3,9 @@ package emerick.igor.javatodolist.task;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import emerick.igor.javatodolist.task.entities.TaskEntity;
+
 import java.util.List;
 import java.util.Optional;
 
