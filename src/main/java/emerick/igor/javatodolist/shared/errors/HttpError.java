@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.errors;
+package emerick.igor.javatodolist.shared.errors;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

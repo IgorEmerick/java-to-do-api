@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.utils;
+package emerick.igor.javatodolist.shared.utils;
 
 import java.beans.PropertyDescriptor;
 import java.util.HashSet;

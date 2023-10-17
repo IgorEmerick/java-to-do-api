@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.user.entities;
+package emerick.igor.javatodolist.modules.user.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

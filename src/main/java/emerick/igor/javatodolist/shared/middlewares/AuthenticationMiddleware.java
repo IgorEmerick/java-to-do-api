@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.filter;
+package emerick.igor.javatodolist.shared.middlewares;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -9,15 +9,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.BCrypt.Result;
-import emerick.igor.javatodolist.user.IUserRepository;
-import emerick.igor.javatodolist.user.entities.UserEntity;
+import emerick.igor.javatodolist.modules.user.IUserRepository;
+import emerick.igor.javatodolist.modules.user.entities.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class AuthenticationFilter extends OncePerRequestFilter {
+public class AuthenticationMiddleware extends OncePerRequestFilter {
   @Autowired
   private IUserRepository userRepository;
   

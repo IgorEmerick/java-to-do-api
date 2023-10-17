@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.task;
+package emerick.igor.javatodolist.modules.task;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import emerick.igor.javatodolist.errors.HttpError;
-import emerick.igor.javatodolist.task.entities.TaskEntity;
-import emerick.igor.javatodolist.utils.Utils;
+import emerick.igor.javatodolist.modules.task.entities.TaskEntity;
+import emerick.igor.javatodolist.shared.errors.HttpError;
+import emerick.igor.javatodolist.shared.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
