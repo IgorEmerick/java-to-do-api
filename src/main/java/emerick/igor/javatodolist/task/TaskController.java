@@ -25,7 +25,7 @@ public class TaskController {
   private ITaskRepository taskRepository;
   
   @PostMapping("/")
-  public ResponseEntity<TaskModel> createTask(@RequestBody TaskModel taskModel, HttpServletRequest request) throws HttpError {
+  public ResponseEntity<TaskEntity> createTask(@RequestBody TaskEntity taskModel, HttpServletRequest request) throws HttpError {
     LocalDateTime currentTime = LocalDateTime.now();
 
     LocalDateTime startTime = taskModel.getStartTime();
@@ -50,23 +50,23 @@ public class TaskController {
 
     taskModel.setUserId(userId);
     
-    TaskModel task = this.taskRepository.save(taskModel);
+    TaskEntity task = this.taskRepository.save(taskModel);
 
     return ResponseEntity.status(201).body(task);
   }
 
   @GetMapping("/")
-  public ResponseEntity<List<TaskModel>> getTasks(HttpServletRequest request) {
+  public ResponseEntity<List<TaskEntity>> getTasks(HttpServletRequest request) {
     UUID userId = (UUID) request.getAttribute("userId");
     
-    List<TaskModel> tasks = this.taskRepository.findByUserId(userId);
+    List<TaskEntity> tasks = this.taskRepository.findByUserId(userId);
 
     return ResponseEntity.ok(tasks);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<TaskModel> updateTask(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) throws HttpError {
-    TaskModel task = this.taskRepository.findById(id).get();
+  public ResponseEntity<TaskEntity> updateTask(@RequestBody TaskEntity taskModel, HttpServletRequest request, @PathVariable UUID id) throws HttpError {
+    TaskEntity task = this.taskRepository.findById(id).get();
 
     if (task == null) {
       throw new HttpError(404, "Task not found!");
@@ -82,7 +82,7 @@ public class TaskController {
 
     taskModel.setId(id);
 
-    TaskModel updatedTask = this.taskRepository.save(taskModel);
+    TaskEntity updatedTask = this.taskRepository.save(taskModel);
 
     return ResponseEntity.ok(updatedTask);
   }

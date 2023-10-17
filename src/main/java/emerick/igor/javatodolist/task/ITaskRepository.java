@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface ITaskRepository extends JpaRepository<TaskModel, UUID> {
-  List<TaskModel> findByUserId(UUID userId);
-  Optional<TaskModel> findById(UUID id);
+public interface ITaskRepository extends JpaRepository<TaskEntity, UUID> {
+  List<TaskEntity> findByUserId(UUID userId);
+  Optional<TaskEntity> findById(UUID id);
 }

@@ -17,7 +17,7 @@ public class UserController {
   private IUserRepository userRepository;
 
   @PostMapping("/")
-  public ResponseEntity<UserModel> createUser(@RequestBody UserModel userModel) throws HttpError {
+  public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userModel) throws HttpError {
     var user = this.userRepository.findByUsername(userModel.getUsername());
 
     if (user != null) {

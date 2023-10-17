@@ -10,7 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.BCrypt.Result;
 import emerick.igor.javatodolist.user.IUserRepository;
-import emerick.igor.javatodolist.user.UserModel;
+import emerick.igor.javatodolist.user.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +47,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     String username = credentials[0];
     String password = credentials[1];
 
-    UserModel user = this.userRepository.findByUsername(username);
+    UserEntity user = this.userRepository.findByUsername(username);
 
     if (user == null) {
       response.sendError(401);
