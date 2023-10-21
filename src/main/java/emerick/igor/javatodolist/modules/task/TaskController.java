@@ -15,29 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import emerick.igor.javatodolist.modules.task.database.entities.TaskEntity;
-import emerick.igor.javatodolist.modules.task.database.repositories.models.ITaskRepository;
 import emerick.igor.javatodolist.modules.task.services.TaskService;
 import emerick.igor.javatodolist.shared.errors.HttpError;
-import emerick.igor.javatodolist.shared.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/task")
 public class TaskController {
-  @Autowired
-  ApplicationContext context;
+  private TaskService taskService;
 
-  @Autowired
-  private ITaskRepository taskRepository;
+  public TaskController(@Autowired ApplicationContext context) {
+    this.taskService = context.getBean(TaskService.class);
+  }
 
   @PostMapping("/")
   public ResponseEntity<TaskEntity> createTask(@RequestBody TaskEntity taskModel, HttpServletRequest request)
       throws HttpError {
-    TaskService service = context.getBean(TaskService.class);
-
     UUID userId = (UUID) request.getAttribute("userId");
 
-    TaskEntity task = service.create(userId, taskModel.getDescription(), taskModel.getTitle(), taskModel.getStartTime(),
+    TaskEntity task = this.taskService.create(userId, taskModel.getDescription(), taskModel.getTitle(),
+        taskModel.getStartTime(),
         taskModel.getFinishTime(), taskModel.getPriority());
 
     return ResponseEntity.status(201).body(task);
@@ -47,9 +44,7 @@ public class TaskController {
   public ResponseEntity<List<TaskEntity>> getUserTasks(HttpServletRequest request) {
     UUID userId = (UUID) request.getAttribute("userId");
 
-    TaskService service = this.context.getBean(TaskService.class);
-
-    List<TaskEntity> tasks = service.getUserTasks(userId);
+    List<TaskEntity> tasks = this.taskService.getUserTasks(userId);
 
     return ResponseEntity.ok(tasks);
   }
@@ -57,24 +52,10 @@ public class TaskController {
   @PutMapping("/{id}")
   public ResponseEntity<TaskEntity> updateTask(@RequestBody TaskEntity taskModel, HttpServletRequest request,
       @PathVariable UUID id) throws HttpError {
-    TaskEntity task = this.taskRepository.findById(id).get();
-
-    if (task == null) {
-      throw new HttpError(404, "Task not found!");
-    }
-
     UUID userId = (UUID) request.getAttribute("userId");
 
-    if (!task.getUserId().equals(userId)) {
-      throw new HttpError(403, "Unauthorized to update this task!");
-    }
+    TaskEntity task = this.taskService.updateTask(userId, taskModel);
 
-    Utils.copyNonNullProperties(taskModel, task);
-
-    taskModel.setId(id);
-
-    TaskEntity updatedTask = this.taskRepository.save(taskModel);
-
-    return ResponseEntity.ok(updatedTask);
+    return ResponseEntity.ok(task);
   }
 }

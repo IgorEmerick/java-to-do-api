@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import emerick.igor.javatodolist.modules.task.database.entities.TaskEntity;
 import emerick.igor.javatodolist.modules.task.database.repositories.models.ITaskRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
+import emerick.igor.javatodolist.shared.utils.Utils;
 
 @Service
 public class TaskService {
@@ -37,5 +38,21 @@ public class TaskService {
 
   public List<TaskEntity> getUserTasks(UUID userId) {
     return this.taskRepository.findByUserId(userId);
+  }
+
+  public TaskEntity updateTask(UUID userId, TaskEntity task) throws HttpError {
+    TaskEntity foundTask = this.taskRepository.findById(task.getId()).get();
+
+    if (foundTask == null) {
+      throw new HttpError(404, "Task not found!");
+    }
+
+    if (foundTask.getUserId() != userId) {
+      throw new HttpError(403, "Permission denied!");
+    }
+
+    Utils.copyNonNullProperties(task, foundTask);
+
+    return this.taskRepository.save(foundTask);
   }
 }
