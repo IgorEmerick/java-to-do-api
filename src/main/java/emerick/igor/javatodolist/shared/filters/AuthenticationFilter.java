@@ -21,7 +21,7 @@ public class AuthenticationFilter implements Filter {
   public AuthenticationFilter(IUserRepository userRepository) {
     this.userRepository = userRepository;
   }
-  
+
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {

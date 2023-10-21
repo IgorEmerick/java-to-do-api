@@ -12,7 +12,7 @@ import emerick.igor.javatodolist.shared.filters.AuthenticationFilter;
 public class MiddlewaresController {
   @Autowired
   IUserRepository userRepository;
-  
+
   @Bean
   FilterRegistrationBean<AuthenticationFilter> registerAuthenticationMiddleware() {
     FilterRegistrationBean<AuthenticationFilter> registrationBean = new FilterRegistrationBean<AuthenticationFilter>();
