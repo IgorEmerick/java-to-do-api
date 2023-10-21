@@ -20,7 +20,7 @@ public class TaskEntity {
   @Id
   @GeneratedValue(generator = "UUID")
   private UUID id;
-  
+
   @CreationTimestamp
   private LocalDateTime createdAt;
 
@@ -34,10 +34,22 @@ public class TaskEntity {
   private String description;
 
   private String title;
-  
+
+  @Column(nullable = true)
   private LocalDateTime startTime;
-  
+
+  @Column(nullable = true)
   private LocalDateTime finishTime;
-  
+
+  @Column(nullable = true)
   private String priority;
+
+  public TaskEntity() {
+  }
+
+  public TaskEntity(UUID userId, String description, String title) {
+    this.userId = userId;
+    this.description = description;
+    this.title = title;
+  }
 }
