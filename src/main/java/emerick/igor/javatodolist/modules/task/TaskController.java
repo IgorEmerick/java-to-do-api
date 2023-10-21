@@ -44,10 +44,12 @@ public class TaskController {
   }
 
   @GetMapping("/")
-  public ResponseEntity<List<TaskEntity>> getTasks(HttpServletRequest request) {
+  public ResponseEntity<List<TaskEntity>> getUserTasks(HttpServletRequest request) {
     UUID userId = (UUID) request.getAttribute("userId");
 
-    List<TaskEntity> tasks = this.taskRepository.findByUserId(userId);
+    TaskService service = this.context.getBean(TaskService.class);
+
+    List<TaskEntity> tasks = service.getUserTasks(userId);
 
     return ResponseEntity.ok(tasks);
   }

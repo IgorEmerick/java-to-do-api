@@ -1,6 +1,7 @@
 package emerick.igor.javatodolist.modules.task.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,9 @@ public class TaskService {
     task.setPriority(priority);
 
     return this.taskRepository.save(task);
+  }
+
+  public List<TaskEntity> getUserTasks(UUID userId) {
+    return this.taskRepository.findByUserId(userId);
   }
 }

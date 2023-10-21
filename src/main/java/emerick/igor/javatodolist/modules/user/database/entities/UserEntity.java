@@ -7,9 +7,12 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import emerick.igor.javatodolist.modules.task.database.entities.TaskEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -17,6 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "users")
+@JsonIgnoreProperties(value = { "tasks" })
 public class UserEntity {
   @Id
   @GeneratedValue(generator = "UUID")
@@ -32,7 +36,7 @@ public class UserEntity {
 
   private String password;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private Set<TaskEntity> tasks = new HashSet<>();
 
   public UserEntity() {
