@@ -34,4 +34,13 @@ public class UserEntity {
 
   @OneToMany(mappedBy = "user")
   private Set<TaskEntity> tasks = new HashSet<>();
+
+  public UserEntity() {
+  }
+
+  public UserEntity(String username, String name, String password) {
+    this.username = username;
+    this.name = name;
+    this.password = password;
+  }
 }
