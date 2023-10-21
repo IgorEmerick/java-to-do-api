@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.shared.middlewares;
+package emerick.igor.javatodolist.shared.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -9,12 +9,12 @@ import emerick.igor.javatodolist.modules.user.database.repositories.models.IUser
 import emerick.igor.javatodolist.shared.filters.AuthenticationFilter;
 
 @Configuration
-public class MiddlewaresController {
+public class FiltersConfig {
   @Autowired
   IUserRepository userRepository;
 
   @Bean
-  FilterRegistrationBean<AuthenticationFilter> registerAuthenticationMiddleware() {
+  FilterRegistrationBean<AuthenticationFilter> registerAuthenticationFilter() {
     FilterRegistrationBean<AuthenticationFilter> registrationBean = new FilterRegistrationBean<AuthenticationFilter>();
 
     registrationBean.setFilter(new AuthenticationFilter(this.userRepository));
