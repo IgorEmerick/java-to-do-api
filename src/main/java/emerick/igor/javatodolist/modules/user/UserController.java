@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.models.IUserRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
+import emerick.igor.javatodolist.shared.providers.models.IHashProvider;
 
 @RestController
 @RequestMapping("/user")
@@ -18,19 +18,25 @@ public class UserController {
   @Autowired
   private IUserRepository userRepository;
 
-  @PostMapping("/")
-  public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userModel) throws HttpError {
-    var user = this.userRepository.findByUsername(userModel.getUsername());
+  private IHashProvider hashProvider;
 
-    if (user != null) {
+  public UserController(IHashProvider hashProvider) {
+    this.hashProvider = hashProvider;
+  }
+
+  @PostMapping("/")
+  public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) throws HttpError {
+    var existsUser = this.userRepository.findByUsername(user.getUsername());
+
+    if (existsUser != null) {
       throw new HttpError(400, "User already exists!");
     }
 
-    var cypherPassword = BCrypt.withDefaults().hashToString(12, userModel.getPassword().toCharArray());
+    var cypherPassword = this.hashProvider.getHash(user.getPassword());
 
-    userModel.setPassword(cypherPassword);
-    
-    var createdUser = this.userRepository.save(userModel);
+    user.setPassword(cypherPassword);
+
+    var createdUser = this.userRepository.save(user);
 
     return ResponseEntity.status(201).body(createdUser);
   }
