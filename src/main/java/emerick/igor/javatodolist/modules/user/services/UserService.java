@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.models.IUserRepository;
-import emerick.igor.javatodolist.shared.errors.HttpError;
+import emerick.igor.javatodolist.shared.infra.errors.HttpError;
 import emerick.igor.javatodolist.shared.providers.models.IHashProvider;
 
 @Service

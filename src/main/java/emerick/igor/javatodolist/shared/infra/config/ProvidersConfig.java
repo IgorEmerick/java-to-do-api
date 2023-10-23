@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.shared.config;
+package emerick.igor.javatodolist.shared.infra.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

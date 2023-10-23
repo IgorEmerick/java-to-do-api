@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.services.UserService;
-import emerick.igor.javatodolist.shared.errors.HttpError;
+import emerick.igor.javatodolist.shared.infra.errors.HttpError;
 
 @RestController
 @RequestMapping("/user")

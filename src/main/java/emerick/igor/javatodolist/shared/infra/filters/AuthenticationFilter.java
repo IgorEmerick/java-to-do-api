@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.shared.filters;
+package emerick.igor.javatodolist.shared.infra.filters;
 
 import java.io.IOException;
 import java.util.Base64;
