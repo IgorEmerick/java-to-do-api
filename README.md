@@ -72,7 +72,7 @@ A Java back-end API to manager to-do tasks.
 
 - [ ] Should be able to create a task containing:
   - title;
-  - description;
+  - description (optional);
   - priority (optional);
   - due date (optional);
   - members;
