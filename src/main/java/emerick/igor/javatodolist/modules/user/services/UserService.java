@@ -23,6 +23,9 @@ public class UserService {
     if (existsUser != null)
       throw new HttpError(400, "User already exists!");
 
+    if (!Utils.validateEmail(email))
+      throw new HttpError(400, "Invalid email!");
+
     if (!Utils.validateStrongPassword(password))
       throw new HttpError(400, "Weak password!");
 
