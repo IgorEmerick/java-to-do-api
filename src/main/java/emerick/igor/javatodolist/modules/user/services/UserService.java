@@ -7,6 +7,7 @@ import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.IUserRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
 import emerick.igor.javatodolist.shared.providers.models.IHashProvider;
+import emerick.igor.javatodolist.shared.utils.Utils;
 
 @Service
 public class UserService {
@@ -19,9 +20,11 @@ public class UserService {
   public UserEntity create(String name, String email, String password) throws HttpError {
     UserEntity existsUser = this.userRepository.findByEmail(email);
 
-    if (existsUser != null) {
+    if (existsUser != null)
       throw new HttpError(400, "User already exists!");
-    }
+
+    if (!Utils.validateStrongPassword(password))
+      throw new HttpError(400, "Weak password!");
 
     String hashPassword = this.hashProvider.getHash(password);
 
