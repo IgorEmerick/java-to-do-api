@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.IUserRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
+import emerick.igor.javatodolist.shared.providers.models.IEnvironmentProvider;
 import emerick.igor.javatodolist.shared.providers.models.IHashProvider;
+import emerick.igor.javatodolist.shared.providers.models.ITokenProvider;
 import emerick.igor.javatodolist.shared.utils.Utils;
 
 @Service
@@ -16,6 +18,12 @@ public class UserService {
 
   @Autowired
   private IHashProvider hashProvider;
+
+  @Autowired
+  private IEnvironmentProvider environmentProvider;
+
+  @Autowired
+  private ITokenProvider tokenProvider;
 
   public UserEntity create(String name, String email, String password) throws HttpError {
     UserEntity existsUser = this.userRepository.findByEmail(email);
@@ -36,5 +44,14 @@ public class UserService {
     createdUser.setPassword(null);
 
     return createdUser;
+  }
+
+  public String authenticate(String email, String password) throws HttpError {
+    UserEntity user = this.userRepository.findByEmail(email);
+
+    if (user == null || !this.hashProvider.compare(user.getPassword(), password))
+      throw new HttpError(401, "Invalid authentication!");
+
+    return this.tokenProvider.generate(this.environmentProvider.get("AUTH_SECRET"), user.getId().toString());
   }
 }
