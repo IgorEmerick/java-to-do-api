@@ -9,7 +9,7 @@ A Java back-end API to manager to-do tasks.
 **Create user**
 - [x] Should be able to create an user sendind name, email and password.
 - [ ] Shouldn't accept weak passwords (less than 10 characters or without numbers/special characters).
-- [ ] Shouldn't create two users with same email.
+- [x] Shouldn't create two users with same email.
 - [ ] Shuoldn't create an user with invalid email.
 
 ***
