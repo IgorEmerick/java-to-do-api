@@ -25,6 +25,10 @@ public class UserService {
 
     String hashPassword = this.hashProvider.getHash(password);
 
-    return this.userRepository.save(new UserEntity(name, email, hashPassword));
+    UserEntity createdUser = this.userRepository.save(new UserEntity(name, email, hashPassword));
+
+    createdUser.setPassword(null);
+
+    return createdUser;
   }
 }
