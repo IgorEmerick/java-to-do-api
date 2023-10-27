@@ -1,5 +1,7 @@
 package emerick.igor.javatodolist.modules.user.services;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +48,15 @@ public class UserService {
     return createdUser;
   }
 
-  public String authenticate(String email, String password) throws HttpError {
+  public String authenticate(String email, String password, Boolean validFor30Days) throws HttpError {
     UserEntity user = this.userRepository.findByEmail(email);
 
     if (user == null || !this.hashProvider.compare(user.getPassword(), password))
       throw new HttpError(401, "Invalid authentication!");
 
-    return this.tokenProvider.generate(this.environmentProvider.get("AUTH_SECRET"), user.getId().toString());
+    LocalDateTime expireDate = validFor30Days ? LocalDateTime.now().plusDays(30) : LocalDateTime.now().plusDays(1);
+
+    return this.tokenProvider.generate(this.environmentProvider.get("AUTH_SECRET"), user.getId().toString(),
+        expireDate);
   }
 }

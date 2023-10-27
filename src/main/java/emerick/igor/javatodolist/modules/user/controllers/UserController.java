@@ -27,7 +27,8 @@ public class UserController {
 
   @PostMapping("/authenticate")
   public ResponseEntity<String> authenticate(@RequestBody AuthenticateUserDTO authenticateRequest) throws HttpError {
-    String token = this.userService.authenticate(authenticateRequest.getEmail(), authenticateRequest.getPassword());
+    String token = this.userService.authenticate(authenticateRequest.getEmail(), authenticateRequest.getPassword(),
+        authenticateRequest.getValidFor30Days());
 
     return ResponseEntity.ok(token);
   }
