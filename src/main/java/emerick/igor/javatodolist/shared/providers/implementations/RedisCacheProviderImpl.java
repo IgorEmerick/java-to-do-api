@@ -17,6 +17,8 @@ public class RedisCacheProviderImpl<K, V> implements ICacheProvider<K, V> {
 
     template.setConnectionFactory(redisConnectionFactory);
 
+    template.afterPropertiesSet();
+
     this.template = template;
   }
 

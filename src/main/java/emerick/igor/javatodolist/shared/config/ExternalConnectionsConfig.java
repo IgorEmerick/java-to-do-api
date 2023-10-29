@@ -9,7 +9,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 public class ExternalConnectionsConfig {
   @Bean
   JedisConnectionFactory redisConnectionFactory() {
-    RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("localhost", 6479);
+    RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("localhost", 6379);
 
     JedisConnectionFactory connectionFactory = new JedisConnectionFactory(config);
 

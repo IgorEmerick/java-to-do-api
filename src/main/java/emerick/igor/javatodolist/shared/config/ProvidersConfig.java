@@ -35,7 +35,7 @@ public class ProvidersConfig {
   }
 
   @Bean
-  ICacheProvider<String, Integer> numberCacheProvider() {
+  ICacheProvider<String, Integer> integerCacheProvider() {
     return new RedisCacheProviderImpl<String, Integer>(this.redisConnectionFactory);
   }
 }
