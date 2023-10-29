@@ -17,7 +17,7 @@ A Java back-end API to manager to-do tasks.
 **Authenticate user**
 - [x] Should be able to authenticate an user and create an authorization token.
 - [x] The authorization token should be valid for 1 or 30 days, according with user option.
-- [ ] Must block user after 3 invalid authentication attempts.
+- [ ] Must block user after 3 invalid authentication attempts at least 24 hours.
 
 ## Project
 
