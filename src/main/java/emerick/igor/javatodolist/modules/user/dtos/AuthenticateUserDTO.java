@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.modules.dtos;
+package emerick.igor.javatodolist.modules.user.dtos;
 
 import lombok.Data;
 
