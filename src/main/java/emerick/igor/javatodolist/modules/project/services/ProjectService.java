@@ -32,6 +32,11 @@ public class ProjectService {
     if (owner == null)
       throw new HttpError(404, "User not found!");
 
+    ProjectEntity existsProject = this.projectRepository.findByOwnerIdAndName(owner.getId(), request.getName());
+
+    if (existsProject != null)
+      throw new HttpError(400, "Project already exists!");
+
     ProjectEntity createProject = new ProjectEntity(owner.getId(), request.getName(), request.getDescription());
 
     ProjectEntity project = this.projectRepository.save(createProject);

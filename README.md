@@ -27,7 +27,7 @@ A Java back-end API to manager to-do tasks.
   - description (optional);
   - members;
 - [x] Must request authentication;
-- [ ] Shouldn't create two projects with same name for same user.
+- [x] Shouldn't create two projects with same name for same user.
 
 ***
 

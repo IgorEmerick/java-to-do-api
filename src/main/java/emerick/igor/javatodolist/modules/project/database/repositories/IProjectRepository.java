@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import emerick.igor.javatodolist.modules.project.database.entities.ProjectEntity;
 
 public interface IProjectRepository extends JpaRepository<ProjectEntity, UUID> {
-
+  public ProjectEntity findByOwnerIdAndName(UUID ownerId, String name);
 }
