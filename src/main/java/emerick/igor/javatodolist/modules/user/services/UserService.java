@@ -1,6 +1,8 @@
 package emerick.igor.javatodolist.modules.user.services;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class UserService {
   private ITokenProvider tokenProvider;
 
   @Autowired
-  ICacheProvider<String, Integer> integerCacheProvider;
+  private ICacheProvider<String, Integer> integerCacheProvider;
 
   public UserEntity create(String name, String email, String password) throws HttpError {
     UserEntity existsUser = this.userRepository.findByEmail(email);
@@ -77,9 +79,14 @@ public class UserService {
       throw new HttpError(401, "Invalid authentication!");
     }
 
-    LocalDateTime expireDate = validFor30Days ? LocalDateTime.now().plusDays(30) : LocalDateTime.now().plusDays(1);
+    LocalDateTime expireDate = validFor30Days != null && validFor30Days ? LocalDateTime.now().plusDays(30)
+        : LocalDateTime.now().plusDays(1);
 
-    return this.tokenProvider.generate(this.environmentProvider.get("AUTH_SECRET"), user.getId().toString(),
+    Map<String, String> payload = new HashMap<>();
+
+    payload.put("userId", user.getId().toString());
+
+    return this.tokenProvider.generate(this.environmentProvider.get("AUTH_SECRET"), payload,
         expireDate);
   }
 }
