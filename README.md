@@ -22,11 +22,11 @@ A Java back-end API to manager to-do tasks.
 ## Project
 
 **Create project**
-- [ ] Should be able to create a project containing:
+- [x] Should be able to create a project containing:
   - name;
   - description (optional);
   - members;
-- [ ] Must request authentication;
+- [x] Must request authentication;
 - [ ] Shouldn't create two projects with same name for same user.
 
 ***

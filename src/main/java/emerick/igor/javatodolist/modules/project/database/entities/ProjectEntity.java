@@ -49,4 +49,13 @@ public class ProjectEntity {
 
   @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
   private Set<ProjectMemberEntity> members = new HashSet<>();
+
+  public ProjectEntity() {
+  }
+
+  public ProjectEntity(UUID ownerId, String name, String description) {
+    this.ownerId = ownerId;
+    this.name = name;
+    this.description = description;
+  }
 }
