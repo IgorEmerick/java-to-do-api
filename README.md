@@ -31,6 +31,12 @@ A Java back-end API to manager to-do tasks.
 
 ***
 
+**Update project**
+- [ ] Should be able to update project properties.
+- [ ] Must be project owner to update project properties.
+
+***
+
 **Add members**
 - [ ] Should be able to add members to projetc by emails.
 - [ ] If doesn't exists an user with provided email, or if the found user already is a project member, no action need to be taken.
