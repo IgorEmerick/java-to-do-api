@@ -38,6 +38,12 @@ public class AuthenticationFilter implements Filter {
 
     String authorizationHeader = request.getHeader("Authorization");
 
+    if (authorizationHeader == null) {
+      response.sendError(401);
+
+      return;
+    }
+
     String[] authorizationParts = authorizationHeader.split(" ");
 
     if (authorizationParts.length != 2 || !authorizationParts[0].equals("Bearer")) {

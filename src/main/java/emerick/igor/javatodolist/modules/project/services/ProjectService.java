@@ -11,9 +11,11 @@ import emerick.igor.javatodolist.modules.project.database.entities.ProjectMember
 import emerick.igor.javatodolist.modules.project.database.repositories.IProjectMemberRepository;
 import emerick.igor.javatodolist.modules.project.database.repositories.IProjectRepository;
 import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceCreateRequestDTO;
+import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceUpdateRequestDTO;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.IUserRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
+import emerick.igor.javatodolist.shared.utils.Utils;
 
 @Service
 public class ProjectService {
@@ -63,5 +65,16 @@ public class ProjectService {
     this.projectMemberRepository.saveAll(projectMembers);
 
     return project;
+  }
+
+  public ProjectEntity update(ProjectServiceUpdateRequestDTO request) throws HttpError {
+    ProjectEntity project = this.projectRepository.findById(request.getId()).get();
+
+    if (project == null)
+      throw new HttpError(404, "Project not found!");
+
+    Utils.copyNonNullProperties(request, project);
+
+    return this.projectRepository.save(project);
   }
 }
