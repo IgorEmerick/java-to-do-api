@@ -23,7 +23,7 @@ public class FiltersConfig {
 
   @Bean
   FilterRegistrationBean<AuthenticationFilter> authenticationFilter() {
-    FilterRegistrationBean<AuthenticationFilter> registration = new FilterRegistrationBean<AuthenticationFilter>();
+    FilterRegistrationBean<AuthenticationFilter> registration = new FilterRegistrationBean<>();
 
     registration.setFilter(new AuthenticationFilter(this.userRepository, this.tokenProvider, this.environmentProvider));
     registration.addUrlPatterns("/project/*");

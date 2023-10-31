@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import emerick.igor.javatodolist.modules.project.database.entities.ProjectEntity;
-import emerick.igor.javatodolist.modules.project.dtos.CreateProjectDTO;
+import emerick.igor.javatodolist.modules.project.dtos.ProjectControllerCreateRequestDTO;
 import emerick.igor.javatodolist.modules.project.dtos.ProjectControllerUpdateRequestDTO;
 import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceCreateRequestDTO;
 import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceUpdateRequestDTO;
@@ -27,7 +27,8 @@ public class ProjectController {
   private ProjectService projectService;
 
   @PostMapping("/")
-  public ResponseEntity<ProjectEntity> create(@RequestBody CreateProjectDTO requestBody, HttpServletRequest request)
+  public ResponseEntity<ProjectEntity> create(@RequestBody ProjectControllerCreateRequestDTO requestBody,
+      HttpServletRequest request)
       throws HttpError {
     UUID userId = (UUID) request.getAttribute("userId");
 
@@ -40,10 +41,8 @@ public class ProjectController {
   }
 
   @PutMapping("/update/{projectId}")
-  public ResponseEntity<ProjectEntity> update(HttpServletRequest request, @PathVariable UUID projectId,
+  public ResponseEntity<ProjectEntity> update(@PathVariable UUID projectId,
       @RequestBody ProjectControllerUpdateRequestDTO requestBody) throws HttpError {
-    UUID userId = (UUID) request.getAttribute("userId");
-
     ProjectEntity project = this.projectService
         .update(new ProjectServiceUpdateRequestDTO(projectId, requestBody.getOwnerId(), requestBody.getName(),
             requestBody.getDescription()));
