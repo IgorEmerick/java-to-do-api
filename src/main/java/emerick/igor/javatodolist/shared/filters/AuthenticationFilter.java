@@ -55,6 +55,12 @@ public class AuthenticationFilter implements Filter {
     Map<String, String> payload = this.tokenProvider.verify(this.environmentProvider.get("AUTH_SECRET"),
         authorizationParts[1]);
 
+    if (payload == null) {
+      response.sendError(401);
+
+      return;
+    }
+
     String userId = payload.get("userId");
 
     if (userId == null) {
