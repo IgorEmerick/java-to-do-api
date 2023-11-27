@@ -33,7 +33,7 @@ A Java back-end API to manager to-do tasks.
 
 **Update project**
 - [x] Should be able to update project properties.
-- [ ] Must be project owner to update project properties.
+- [x] Must be project owner to update project properties.
 
 ***
 
