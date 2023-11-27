@@ -42,10 +42,13 @@ public class ProjectController {
 
   @PutMapping("/update/{projectId}")
   public ResponseEntity<ProjectEntity> update(@PathVariable UUID projectId,
-      @RequestBody ProjectControllerUpdateRequestDTO requestBody) throws HttpError {
+      @RequestBody ProjectControllerUpdateRequestDTO requestBody, HttpServletRequest request) throws HttpError {
+
+    UUID userId = (UUID) request.getAttribute("userId");
+
     ProjectEntity project = this.projectService
         .update(new ProjectServiceUpdateRequestDTO(projectId, requestBody.getOwnerId(), requestBody.getName(),
-            requestBody.getDescription()));
+            requestBody.getDescription()), userId);
 
     return ResponseEntity.ok(project);
   }
