@@ -2,7 +2,6 @@ package emerick.igor.javatodolist.modules.project.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,7 @@ public class ProjectService {
   private IProjectMemberRepository projectMemberRepository;
 
   public ProjectEntity create(ProjectServiceCreateRequestDTO request) throws HttpError {
+
     UserEntity owner = this.userRepository.findById(request.getUserId()).get();
 
     if (owner == null)
@@ -68,13 +68,14 @@ public class ProjectService {
     return project;
   }
 
-  public ProjectEntity update(ProjectServiceUpdateRequestDTO request, UUID requesterId) throws HttpError {
+  public ProjectEntity update(ProjectServiceUpdateRequestDTO request) throws HttpError {
+
     ProjectEntity project = this.projectRepository.findById(request.getId()).get();
 
     if (project == null)
       throw new HttpError(404, "Project not found!");
 
-    if (!project.getOwnerId().equals(requesterId)) {
+    if (!project.getOwnerId().equals(request.getRequestId())) {
       throw new HttpError(403, "Access denied!");
     }
 

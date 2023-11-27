@@ -30,6 +30,7 @@ public class ProjectController {
   public ResponseEntity<ProjectEntity> create(@RequestBody ProjectControllerCreateRequestDTO requestBody,
       HttpServletRequest request)
       throws HttpError {
+
     UUID userId = (UUID) request.getAttribute("userId");
 
     ProjectServiceCreateRequestDTO createRequest = new ProjectServiceCreateRequestDTO(requestBody.getName(),
@@ -48,7 +49,7 @@ public class ProjectController {
 
     ProjectEntity project = this.projectService
         .update(new ProjectServiceUpdateRequestDTO(projectId, requestBody.getOwnerId(), requestBody.getName(),
-            requestBody.getDescription()), userId);
+            requestBody.getDescription(), userId));
 
     return ResponseEntity.ok(project);
   }
