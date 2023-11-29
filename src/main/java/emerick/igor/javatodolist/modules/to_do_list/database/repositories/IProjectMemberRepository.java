@@ -1,10 +1,10 @@
-package emerick.igor.javatodolist.modules.project.database.repositories;
+package emerick.igor.javatodolist.modules.to_do_list.database.repositories;
 
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import emerick.igor.javatodolist.modules.project.database.entities.ProjectMemberEntity;
+import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectMemberEntity;
 import jakarta.transaction.Transactional;
 
 import java.util.Collection;

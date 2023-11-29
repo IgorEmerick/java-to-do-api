@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.modules.project.database.entities;
+package emerick.igor.javatodolist.modules.to_do_list.database.entities;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

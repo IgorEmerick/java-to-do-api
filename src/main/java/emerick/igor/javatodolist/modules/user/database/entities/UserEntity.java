@@ -10,8 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import emerick.igor.javatodolist.modules.project.database.entities.ProjectEntity;
-import emerick.igor.javatodolist.modules.project.database.entities.ProjectMemberEntity;
+import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectEntity;
+import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectMemberEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.modules.project.services;
+package emerick.igor.javatodolist.modules.to_do_list.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,13 +8,13 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import emerick.igor.javatodolist.modules.project.database.entities.ProjectEntity;
-import emerick.igor.javatodolist.modules.project.database.entities.ProjectMemberEntity;
-import emerick.igor.javatodolist.modules.project.database.repositories.IProjectMemberRepository;
-import emerick.igor.javatodolist.modules.project.database.repositories.IProjectRepository;
-import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceCreateRequestDTO;
-import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceUpdateMembersRequestDTO;
-import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceUpdateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectEntity;
+import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectMemberEntity;
+import emerick.igor.javatodolist.modules.to_do_list.database.repositories.IProjectMemberRepository;
+import emerick.igor.javatodolist.modules.to_do_list.database.repositories.IProjectRepository;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceCreateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceUpdateMembersRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceUpdateRequestDTO;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.IUserRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
