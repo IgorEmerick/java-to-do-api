@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import emerick.igor.javatodolist.modules.dtos.AuthenticateUserDTO;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
+import emerick.igor.javatodolist.modules.user.dtos.AuthenticateUserDTO;
 import emerick.igor.javatodolist.modules.user.services.UserService;
 import emerick.igor.javatodolist.shared.errors.HttpError;
 

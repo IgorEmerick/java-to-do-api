@@ -22,27 +22,25 @@ A Java back-end API to manager to-do tasks.
 ## Project
 
 **Create project**
-- [ ] Should be able to create a project containing:
+- [x] Should be able to create a project containing:
   - name;
   - description (optional);
   - members;
-- [ ] Must request authentication;
-- [ ] Shouldn't create two projects with same name for same user.
+- [x] Must request authentication;
+- [x] Shouldn't create two projects with same name for same user.
 
 ***
 
-**Add members**
-- [ ] Should be able to add members to projetc by emails.
-- [ ] If doesn't exists an user with provided email, or if the found user already is a project member, no action need to be taken.
-- [ ] Must be a project owner to add a member.
+**Update project**
+- [x] Should be able to update project properties.
+- [x] Must be project owner to update project properties.
 
 ***
 
-**Remove members**
-
-- [ ] Should be able to remove members from project by emails.
-- [ ] If doesn't exists an user with provided emails, or if the found user isn't a project member, no action need to be taken.
-- [ ] Must be a project owner to remove a member.
+**Update members**
+- [x] Should be able to update project member list by emails.
+- [x] Must be a project owner to update members list.
+- [x] Shouldn't be able to remove project owner from project members list.
 
 ## Task stages
 
