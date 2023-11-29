@@ -94,6 +94,9 @@ public class ProjectService {
       throw new HttpError(404, "Project not found!");
     }
 
+    if (!project.getOwnerId().equals(request.getRequesterId()))
+      throw new HttpError(403, "Access denied!");
+
     List<ProjectMemberEntity> projectMemberList = this.projectMemberRepository.findByProjectId(project.getId());
 
     List<UserEntity> memberUserList = this.userRepository.findByEmailIn(Arrays.asList(request.getMembersEmails()));

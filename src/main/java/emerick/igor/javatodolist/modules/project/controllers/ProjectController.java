@@ -60,10 +60,12 @@ public class ProjectController {
 
   @PutMapping("/member/{projectId}")
   public ResponseEntity<List<UserEntity>> updateMembers(@PathVariable UUID projectId,
-      @RequestBody ProjectControllerUpdateMembersRequestDTO requestBody) throws HttpError {
+      @RequestBody ProjectControllerUpdateMembersRequestDTO requestBody, HttpServletRequest request) throws HttpError {
+
+    UUID userId = (UUID) request.getAttribute("userId");
 
     List<UserEntity> memberList = this.projectService
-        .updateMembers(new ProjectServiceUpdateMembersRequestDTO(requestBody.getMembersEmails(), projectId));
+        .updateMembers(new ProjectServiceUpdateMembersRequestDTO(requestBody.getMembersEmails(), projectId, userId));
 
     return ResponseEntity.ok(memberList);
   }

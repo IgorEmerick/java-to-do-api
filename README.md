@@ -39,7 +39,7 @@ A Java back-end API to manager to-do tasks.
 
 **Update members**
 - [x] Should be able to update project member list by emails.
-- [ ] Must be a project owner to update members list.
+- [x] Must be a project owner to update members list.
 - [ ] Shouldn't be able to remove project owner from project members list.
 
 ## Task stages
