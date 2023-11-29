@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository extends JpaRepository<UserEntity, UUID> {
-  public UserEntity findByEmail(String email);
-
   public Optional<UserEntity> findById(UUID id);
+
+  public UserEntity findByEmail(String email);
 
   public List<UserEntity> findByEmailIn(Collection<String> emails);
 }

@@ -97,9 +97,15 @@ public class ProjectService {
     if (!project.getOwnerId().equals(request.getRequesterId()))
       throw new HttpError(403, "Access denied!");
 
-    List<ProjectMemberEntity> projectMemberList = this.projectMemberRepository.findByProjectId(project.getId());
-
     List<UserEntity> memberUserList = this.userRepository.findByEmailIn(Arrays.asList(request.getMembersEmails()));
+
+    Boolean isProjectOwnerInMemberUserList = memberUserList.stream()
+        .anyMatch(user -> user.getId().equals(request.getRequesterId()));
+
+    if (!isProjectOwnerInMemberUserList)
+      throw new HttpError(400, "Project owner must be in project members list!");
+
+    List<ProjectMemberEntity> projectMemberList = this.projectMemberRepository.findByProjectId(project.getId());
 
     List<UUID> removeMemberIdList = projectMemberList.stream()
         .filter(member -> memberUserList.stream().noneMatch(user -> user.getId().equals(member.getUserId())))
