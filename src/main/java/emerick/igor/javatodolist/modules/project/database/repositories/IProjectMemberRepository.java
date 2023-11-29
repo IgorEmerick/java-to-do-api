@@ -6,6 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import emerick.igor.javatodolist.modules.project.database.entities.ProjectMemberEntity;
 
-public interface IProjectMemberRepository extends JpaRepository<ProjectMemberEntity, UUID> {
+import java.util.Collection;
+import java.util.List;
 
+public interface IProjectMemberRepository extends JpaRepository<ProjectMemberEntity, UUID> {
+  public List<ProjectMemberEntity> findByProjectId(UUID projectId);
+
+  public void deleteByIdIn(Collection<UUID> ids);
 }

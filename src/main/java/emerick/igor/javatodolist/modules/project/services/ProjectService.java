@@ -1,7 +1,10 @@
 package emerick.igor.javatodolist.modules.project.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import emerick.igor.javatodolist.modules.project.database.entities.ProjectMember
 import emerick.igor.javatodolist.modules.project.database.repositories.IProjectMemberRepository;
 import emerick.igor.javatodolist.modules.project.database.repositories.IProjectRepository;
 import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceCreateRequestDTO;
+import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceUpdateMembersRequestDTO;
 import emerick.igor.javatodolist.modules.project.dtos.ProjectServiceUpdateRequestDTO;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.IUserRepository;
@@ -82,5 +86,34 @@ public class ProjectService {
     Utils.copyNonNullProperties(request, project);
 
     return this.projectRepository.save(project);
+  }
+
+  public List<UserEntity> updateMembers(ProjectServiceUpdateMembersRequestDTO request) throws HttpError {
+    ProjectEntity project = this.projectRepository.findById(request.getProjectId()).get();
+
+    if (project == null) {
+      throw new HttpError(404, "Project not found!");
+    }
+
+    Stream<ProjectMemberEntity> projectMemberStream = this.projectMemberRepository.findByProjectId(project.getId())
+        .stream();
+
+    Stream<UserEntity> userStream = this.userRepository.findByEmailIn(Arrays.asList(request.getMembersEmails()))
+        .stream();
+
+    Stream<ProjectMemberEntity> removeMemberStream = projectMemberStream
+        .filter(projectMember -> userStream.noneMatch(user -> user.getId().equals(projectMember.getUserId())));
+
+    List<UUID> removeMemberIdList = removeMemberStream.map(removeMember -> removeMember.getId()).toList();
+
+    this.projectMemberRepository.deleteByIdIn(removeMemberIdList);
+
+    List<ProjectMemberEntity> createMemberList = userStream
+        .filter(user -> projectMemberStream.noneMatch(projectMember -> projectMember.getUserId().equals(user.getId())))
+        .map(user -> new ProjectMemberEntity(project.getId(), user.getId())).toList();
+
+    this.projectMemberRepository.saveAll(createMemberList);
+
+    return userStream.toList();
   }
 }
