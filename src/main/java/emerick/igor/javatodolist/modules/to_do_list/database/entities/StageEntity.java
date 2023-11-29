@@ -31,9 +31,17 @@ public class StageEntity {
   private String name;
 
   @Column(name = "project_id")
-  private String projectId;
+  private UUID projectId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "project_id", insertable = false, updatable = false)
   private ProjectEntity project;
+
+  public StageEntity() {
+  }
+
+  public StageEntity(String name, UUID projectId) {
+    this.name = name;
+    this.projectId = projectId;
+  }
 }
