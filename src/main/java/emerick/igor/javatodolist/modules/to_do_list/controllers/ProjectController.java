@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectEntity;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectControllerCreateRequestDTO;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectControllerUpdateMembersRequestDTO;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectControllerUpdateRequestDTO;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceCreateRequestDTO;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceUpdateMembersRequestDTO;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceUpdateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectControllerCreateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectControllerUpdateMembersRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectControllerUpdateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectServiceCreateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectServiceUpdateMembersRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectServiceUpdateRequestDTO;
 import emerick.igor.javatodolist.modules.to_do_list.services.ProjectService;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.shared.errors.HttpError;

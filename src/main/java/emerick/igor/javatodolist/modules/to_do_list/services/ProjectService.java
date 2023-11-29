@@ -12,9 +12,9 @@ import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectEnt
 import emerick.igor.javatodolist.modules.to_do_list.database.entities.ProjectMemberEntity;
 import emerick.igor.javatodolist.modules.to_do_list.database.repositories.IProjectMemberRepository;
 import emerick.igor.javatodolist.modules.to_do_list.database.repositories.IProjectRepository;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceCreateRequestDTO;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceUpdateMembersRequestDTO;
-import emerick.igor.javatodolist.modules.to_do_list.dtos.ProjectServiceUpdateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectServiceCreateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectServiceUpdateMembersRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.project.ProjectServiceUpdateRequestDTO;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
 import emerick.igor.javatodolist.modules.user.database.repositories.IUserRepository;
 import emerick.igor.javatodolist.shared.errors.HttpError;
