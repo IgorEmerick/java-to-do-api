@@ -9,27 +9,31 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
 public class Utils {
-  public static String[] getNullPropertyNames(Object source) {
-    BeanWrapper src = new BeanWrapperImpl(source);
+  public static Boolean validateStrongPassword(String password) {
+    return password.matches(".*[a-zA-Z].*") && password.matches(".*\\d.*")
+        && password.matches(".*[&* {}\\[\\],=\\-().+;'\"`~/!@#$%^?<>].*") && password.length() >= 10;
+  }
 
-    PropertyDescriptor[] propertyDescriptors = src.getPropertyDescriptors();
-
-    Set<String> emptyProperties = new HashSet<>();
-
-    for (PropertyDescriptor propertyDescriptor: propertyDescriptors) {
-      String propertyName = propertyDescriptor.getName();
-      
-      Object propertyValue = src.getPropertyValue(propertyName);
-
-      if (propertyValue == null) {
-        emptyProperties.add(propertyName);
-      }
-    }
-
-    return emptyProperties.toArray(new String[emptyProperties.size()]);
+  public static Boolean validateEmail(String email) {
+    return email.matches("^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-] + )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2,7}");
   }
 
   public static void copyNonNullProperties(Object source, Object target) {
-    BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
+    BeanWrapper newSource = new BeanWrapperImpl(source);
+
+    PropertyDescriptor[] propertiesDescriptors = newSource.getPropertyDescriptors();
+
+    Set<String> nullProperties = new HashSet<>();
+
+    for (PropertyDescriptor propertyDescriptor : propertiesDescriptors) {
+      String propertyName = propertyDescriptor.getName();
+
+      if (newSource.getPropertyValue(propertyName) == null)
+        nullProperties.add(propertyName);
+    }
+
+    String[] nullPropertiesArray = nullProperties.toArray(new String[nullProperties.size()]);
+
+    BeanUtils.copyProperties(source, target, nullPropertiesArray);
   }
 }

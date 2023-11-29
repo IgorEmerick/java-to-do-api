@@ -9,7 +9,7 @@ import emerick.igor.javatodolist.shared.errors.HttpError;
 @ControllerAdvice
 public class ErrorHandler {
   @ExceptionHandler(HttpError.class)
-  public ResponseEntity<String> httpErrorHandler(HttpError error) {
+  public ResponseEntity<String> httpErrorHandle(HttpError error) {
     return ResponseEntity.status(error.getStatus()).body(error.getMessage());
   }
 }

@@ -4,7 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.BCrypt.Result;
 import emerick.igor.javatodolist.shared.providers.models.IHashProvider;
 
-public class BCryptHashProvider implements IHashProvider {
+public class BCryptHashProviderImpl implements IHashProvider {
 
   @Override
   public String getHash(String phrase) {
@@ -12,10 +12,10 @@ public class BCryptHashProvider implements IHashProvider {
   }
 
   @Override
-  public Boolean compare(String phrase, String hash) {
-    Result verification = BCrypt.verifyer().verify(phrase.toCharArray(), hash.toCharArray());
+  public Boolean compare(String hash, String phrase) {
+    Result compareResult = BCrypt.verifyer().verify(phrase.toCharArray(), hash.toCharArray());
 
-    return verification.verified;
+    return compareResult.verified;
   }
 
 }

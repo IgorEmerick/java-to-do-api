@@ -1,12 +1,13 @@
 package emerick.igor.javatodolist.shared.filters;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.util.Map;
+import java.util.UUID;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import at.favre.lib.crypto.bcrypt.BCrypt.Result;
 import emerick.igor.javatodolist.modules.user.database.entities.UserEntity;
-import emerick.igor.javatodolist.modules.user.database.repositories.models.IUserRepository;
+import emerick.igor.javatodolist.modules.user.database.repositories.IUserRepository;
+import emerick.igor.javatodolist.shared.providers.models.IEnvironmentProvider;
+import emerick.igor.javatodolist.shared.providers.models.ITokenProvider;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,51 +19,67 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthenticationFilter implements Filter {
   private IUserRepository userRepository;
 
-  public AuthenticationFilter(IUserRepository userRepository) {
+  private ITokenProvider tokenProvider;
+
+  private IEnvironmentProvider environmentProvider;
+
+  public AuthenticationFilter(IUserRepository userRepository, ITokenProvider tokenProvider,
+      IEnvironmentProvider environmentProvider) {
     this.userRepository = userRepository;
+    this.tokenProvider = tokenProvider;
+    this.environmentProvider = environmentProvider;
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+  public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain chain)
       throws IOException, ServletException {
-    HttpServletRequest req = (HttpServletRequest) request;
-    HttpServletResponse res = (HttpServletResponse) response;
+    HttpServletRequest request = (HttpServletRequest) arg0;
+    HttpServletResponse response = (HttpServletResponse) arg1;
 
-    String authorizationHeader = req.getHeader("Authorization");
+    String authorizationHeader = request.getHeader("Authorization");
 
-    if (authorizationHeader == null || !authorizationHeader.matches("^Basic .*")) {
-      res.sendError(401);
+    if (authorizationHeader == null) {
+      response.sendError(401);
 
       return;
     }
 
-    String authorizationBase64 = authorizationHeader.split("Basic ")[1];
+    String[] authorizationParts = authorizationHeader.split(" ");
 
-    String authorization = new String(Base64.getDecoder().decode(authorizationBase64));
+    if (authorizationParts.length != 2 || !authorizationParts[0].equals("Bearer")) {
+      response.sendError(401);
 
-    String[] credentials = authorization.split(":");
+      return;
+    }
 
-    String username = credentials[0];
-    String password = credentials[1];
+    Map<String, String> payload = this.tokenProvider.verify(this.environmentProvider.get("AUTH_SECRET"),
+        authorizationParts[1]);
 
-    UserEntity user = this.userRepository.findByUsername(username);
+    if (payload == null) {
+      response.sendError(401);
+
+      return;
+    }
+
+    String userId = payload.get("userId");
+
+    if (userId == null) {
+      response.sendError(401);
+
+      return;
+    }
+
+    UserEntity user = this.userRepository.findById(UUID.fromString(userId)).get();
 
     if (user == null) {
-      res.sendError(401);
+      response.sendError(401);
 
       return;
     }
 
-    Result validPassword = BCrypt.verifyer().verify(password.getBytes(), user.getPassword().getBytes());
-
-    if (!validPassword.verified) {
-      res.sendError(401);
-
-      return;
-    }
-
-    req.setAttribute("userId", user.getId());
+    request.setAttribute("userId", user.getId());
 
     chain.doFilter(request, response);
   }
+
 }

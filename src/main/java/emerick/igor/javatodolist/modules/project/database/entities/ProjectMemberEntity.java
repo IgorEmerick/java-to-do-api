@@ -1,4 +1,4 @@
-package emerick.igor.javatodolist.modules.task.database.entities;
+package emerick.igor.javatodolist.modules.project.database.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,9 +18,9 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
-@Entity(name = "tasks")
-@JsonIgnoreProperties(value = { "user" })
-public class TaskEntity {
+@Entity(name = "projects_members")
+@JsonIgnoreProperties(value = { "project", "user" })
+public class ProjectMemberEntity {
   @Id
   @GeneratedValue(generator = "UUID")
   private UUID id;
@@ -28,32 +28,25 @@ public class TaskEntity {
   @CreationTimestamp
   private LocalDateTime createdAt;
 
+  @Column(name = "project_id")
+  private UUID projectId;
+
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", insertable = false, updatable = false)
-  private UserEntity user;
+  @JoinColumn(name = "project_id", insertable = false, updatable = false)
+  private ProjectEntity project;
 
   @Column(name = "user_id")
   private UUID userId;
 
-  private String description;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", insertable = false, updatable = false)
+  private UserEntity user;
 
-  private String title;
-
-  @Column(nullable = true)
-  private LocalDateTime startTime;
-
-  @Column(nullable = true)
-  private LocalDateTime finishTime;
-
-  @Column(nullable = true)
-  private String priority;
-
-  public TaskEntity() {
+  public ProjectMemberEntity() {
   }
 
-  public TaskEntity(UUID userId, String description, String title) {
+  public ProjectMemberEntity(UUID projectId, UUID userId) {
+    this.projectId = projectId;
     this.userId = userId;
-    this.description = description;
-    this.title = title;
   }
 }

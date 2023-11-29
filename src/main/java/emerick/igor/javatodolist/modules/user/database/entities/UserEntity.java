@@ -6,10 +6,12 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import emerick.igor.javatodolist.modules.task.database.entities.TaskEntity;
+import emerick.igor.javatodolist.modules.project.database.entities.ProjectEntity;
+import emerick.igor.javatodolist.modules.project.database.entities.ProjectMemberEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,7 +22,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "users")
-@JsonIgnoreProperties(value = { "tasks" })
+@JsonIgnoreProperties(value = { "ownedProjects", "projects" })
 public class UserEntity {
   @Id
   @GeneratedValue(generator = "UUID")
@@ -29,22 +31,28 @@ public class UserEntity {
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  @Column(unique = true)
-  private String username;
+  @UpdateTimestamp
+  private LocalDateTime updatedAt;
 
   private String name;
 
+  @Column(unique = true)
+  private String email;
+
   private String password;
 
+  @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+  private Set<ProjectEntity> ownedProjects = new HashSet<>();
+
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  private Set<TaskEntity> tasks = new HashSet<>();
+  private Set<ProjectMemberEntity> projects = new HashSet<>();
 
   public UserEntity() {
   }
 
-  public UserEntity(String username, String name, String password) {
-    this.username = username;
+  public UserEntity(String name, String email, String password) {
     this.name = name;
+    this.email = email;
     this.password = password;
   }
 }
