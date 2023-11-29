@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,27 +94,24 @@ public class ProjectService {
       throw new HttpError(404, "Project not found!");
     }
 
-    Stream<ProjectMemberEntity> projectMemberStream = this.projectMemberRepository.findByProjectId(project.getId())
-        .stream();
+    List<ProjectMemberEntity> projectMemberList = this.projectMemberRepository.findByProjectId(project.getId());
 
-    Stream<UserEntity> userStream = this.userRepository.findByEmailIn(Arrays.asList(request.getMembersEmails()))
-        .stream();
+    List<UserEntity> memberUserList = this.userRepository.findByEmailIn(Arrays.asList(request.getMembersEmails()));
 
-    Stream<ProjectMemberEntity> removeMemberStream = projectMemberStream
-        .filter(projectMember -> userStream.noneMatch(user -> user.getId().equals(projectMember.getUserId())));
+    List<UUID> removeMemberIdList = projectMemberList.stream()
+        .filter(member -> memberUserList.stream().noneMatch(user -> user.getId().equals(member.getUserId())))
+        .map(member -> member.getId()).toList();
 
-    List<UUID> removeMemberIdList = removeMemberStream.map(removeMember -> removeMember.getId()).toList();
+    if (removeMemberIdList.size() > 0)
+      this.projectMemberRepository.deleteByIdIn(removeMemberIdList);
 
-    this.projectMemberRepository.deleteByIdIn(removeMemberIdList);
-
-    List<ProjectMemberEntity> createMemberList = userStream
-        .filter(user -> projectMemberStream.noneMatch(projectMember -> projectMember.getUserId().equals(user.getId())))
+    List<ProjectMemberEntity> createMemberList = memberUserList.stream()
+        .filter(user -> projectMemberList.stream().noneMatch(member -> member.getUserId().equals(user.getId())))
         .map(user -> new ProjectMemberEntity(project.getId(), user.getId())).toList();
 
-    this.projectMemberRepository.saveAll(createMemberList);
+    if (createMemberList.size() > 0)
+      this.projectMemberRepository.saveAll(createMemberList);
 
-    userStream.forEach(user -> user.setPassword(null));
-
-    return userStream.toList();
+    return memberUserList;
   }
 }
