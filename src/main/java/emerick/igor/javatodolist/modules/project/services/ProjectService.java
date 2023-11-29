@@ -114,6 +114,8 @@ public class ProjectService {
 
     this.projectMemberRepository.saveAll(createMemberList);
 
+    userStream.forEach(user -> user.setPassword(null));
+
     return userStream.toList();
   }
 }
