@@ -37,18 +37,9 @@ A Java back-end API to manager to-do tasks.
 
 ***
 
-**Add members**
-- [ ] Should be able to add members to projetc by emails.
-- [ ] If doesn't exists an user with provided email, or if the found user already is a project member, no action need to be taken.
-- [ ] Must be a project owner to add a member.
-
-***
-
-**Remove members**
-
-- [ ] Should be able to remove members from project by emails.
-- [ ] If doesn't exists an user with provided emails, or if the found user isn't a project member, no action need to be taken.
-- [ ] Must be a project owner to remove a member.
+**Update members**
+- [ ] Should be able to update project member list by emails.
+- [ ] Must be a project owner to update members list.
 
 ## Task stages
 
