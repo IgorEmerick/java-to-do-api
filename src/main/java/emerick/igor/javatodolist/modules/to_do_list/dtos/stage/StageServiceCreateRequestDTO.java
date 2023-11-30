@@ -8,9 +8,11 @@ import lombok.Data;
 public class StageServiceCreateRequestDTO {
   private String name;
   private UUID projectId;
+  private UUID requesterId;
 
-  public StageServiceCreateRequestDTO(String name, UUID projectId) {
+  public StageServiceCreateRequestDTO(String name, UUID projectId, UUID requesterId) {
     this.name = name;
     this.projectId = projectId;
+    this.requesterId = requesterId;
   }
 }

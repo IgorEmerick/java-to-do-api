@@ -27,6 +27,7 @@ public class FiltersConfig {
 
     registration.setFilter(new AuthenticationFilter(this.userRepository, this.tokenProvider, this.environmentProvider));
     registration.addUrlPatterns("/project/*");
+    registration.addUrlPatterns("/stage/*");
     registration.setOrder(0);
 
     return registration;

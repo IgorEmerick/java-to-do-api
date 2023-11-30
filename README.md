@@ -48,7 +48,7 @@ A Java back-end API to manager to-do tasks.
 
 - [x] Should be able to create a stage containing:
   - name;
-- [ ] Must be a project member to create a stage.
+- [x] Must be a project member to create a stage.
 
 ***
 

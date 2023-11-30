@@ -24,6 +24,9 @@ public class StageService {
     if (project == null)
       throw new HttpError(404, "Project not found!");
 
+    if (!project.getOwnerId().equals(request.getRequesterId()))
+      throw new HttpError(403, "Access denied!");
+
     StageEntity stage = this.stageRepository.save(new StageEntity(request.getName(), request.getProjectId()));
 
     return stage;
