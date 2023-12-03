@@ -8,6 +8,7 @@ import emerick.igor.javatodolist.modules.to_do_list.database.entities.StageEntit
 import emerick.igor.javatodolist.modules.to_do_list.database.repositories.IProjectMemberRepository;
 import emerick.igor.javatodolist.modules.to_do_list.database.repositories.IStageRepository;
 import emerick.igor.javatodolist.modules.to_do_list.dtos.stage.StageServiceCreateRequestDTO;
+import emerick.igor.javatodolist.modules.to_do_list.dtos.stage.StageServiceUpdateRequestDTO;
 import emerick.igor.javatodolist.shared.errors.HttpError;
 
 @Service
@@ -28,5 +29,22 @@ public class StageService {
     StageEntity stage = this.stageRepository.save(new StageEntity(request.getName(), request.getProjectId()));
 
     return stage;
+  }
+
+  public StageEntity update(StageServiceUpdateRequestDTO request) throws HttpError {
+    StageEntity stage = this.stageRepository.findById(request.getStageId()).orElse(null);
+
+    if (stage == null)
+      throw new HttpError(404, "Stage not found!");
+
+    ProjectMemberEntity projectMember = this.projectMemberRepository.findByProjectIdAndUserId(stage.getProjectId(),
+        request.getRequesterId());
+
+    if (projectMember == null)
+      throw new HttpError(403, "Access denied!");
+
+    stage.setName(request.getName());
+
+    return this.stageRepository.save(stage);
   }
 }

@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,6 +19,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "stages")
+@JsonIgnoreProperties(value = { "project" })
 public class StageEntity {
   @Id
   @GeneratedValue(generator = "UUID")

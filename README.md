@@ -54,8 +54,8 @@ A Java back-end API to manager to-do tasks.
 
 **Update stage**
 
-- [ ] Should be able to update stage.
-- [ ] Must be a project member to update a stage.
+- [x] Should be able to update stage.
+- [x] Must be a project member to update a stage.
 
 ***
 
