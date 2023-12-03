@@ -15,4 +15,6 @@ public interface IProjectMemberRepository extends JpaRepository<ProjectMemberEnt
   public List<ProjectMemberEntity> deleteByIdIn(Collection<UUID> ids);
 
   public List<ProjectMemberEntity> findByProjectId(UUID projectId);
+
+  public ProjectMemberEntity findByProjectIdAndUserId(UUID projectId, UUID userId);
 }
